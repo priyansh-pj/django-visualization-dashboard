@@ -17,6 +17,7 @@ class IntensitySerializer(serializers.Serializer):
         intensity = obj['intensity']
         if intensity is None:
             intensity = 0
+        intensity = f'intensity ({str(intensity)})' 
         return intensity
     
 class LikelihoodSerializer(serializers.Serializer):
@@ -30,6 +31,7 @@ class LikelihoodSerializer(serializers.Serializer):
         likelihood = obj['likelihood']
         if likelihood is None:
             likelihood = 0
+        likelihood = f'likelihood ({str(likelihood)})' 
         return likelihood
 
 class RelevanceSerializer(serializers.Serializer):
@@ -43,6 +45,8 @@ class RelevanceSerializer(serializers.Serializer):
         relevance = obj['relevance']
         if relevance is None:
             relevance = 0
+        relevance = f'relevance ({str(relevance)})' 
+        
         return relevance
 
 class CountrySerializer(serializers.Serializer):
@@ -73,17 +77,18 @@ class StartYearSerializer(serializers.Serializer):
         return year
     
 class EndYearSerializer(serializers.Serializer):
-    start_year = serializers.SerializerMethodField()
+    end_year = serializers.SerializerMethodField()
     count = serializers.IntegerField()
 
     class Meta:
         fields = ('end_year', 'count')
 
-    def get_start_year(self, obj):
+    def get_end_year(self, obj):
         year = obj['end_year']
         if year is None:
             year = 0
         return year
+
 
 class TopicSerializer(serializers.Serializer):
     topic = serializers.SerializerMethodField()

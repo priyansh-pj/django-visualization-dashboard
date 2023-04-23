@@ -5,7 +5,9 @@ from django.db.models.functions import Lower,Concat
 from .models import Data
 from .serializers import *
 
-# Create your views here.
+
+
+# API functions here.
 @api_view(['GET'])
 def api_routes(requets):
     routes = [
@@ -40,39 +42,40 @@ def relevance_visualization(request):
 
 @api_view(['GET'])
 def country_visualization(request):
-    data_counts = Data.objects.values('country').annotate(count=Count('id'))
+    data_counts = Data.objects.exclude(country='').values('country').annotate(count=Count('id'))
     serializer = CountrySerializer(data_counts, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
 def start_year_visualization(request):
-    data_counts = Data.objects.values('start_year').annotate(count=Count('id'))
+    data_counts = Data.objects.exclude(start_year=None).values('start_year').annotate(count=Count('id'))
+
     serializer = StartYearSerializer(data_counts, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
 def end_year_visualization(request):
-    data_counts = Data.objects.values('end_year').annotate(count=Count('id'))
+    data_counts =Data.objects.exclude(end_year=None).values('end_year').annotate(count=Count('id'))
     serializer = EndYearSerializer(data_counts, many=True)
     return Response(serializer.data)
 
 
 @api_view(['GET'])
 def topic_visualization(request):
-    data_counts = Data.objects.annotate(region_lower=Lower('topic')).values('topic_lower').annotate(count=Count('id')).annotate(region=Concat(Value(''), Value(''), Lower('topic_lower'))).values('topic', 'count')
+    data_counts = Data.objects.exclude(topic='').annotate(topic_lower=Lower('topic')).values('topic_lower').annotate(count=Count('id')).annotate(topic=Concat(Value(''), Value(''), Lower('topic_lower'))).values('topic', 'count')
     serializer = TopicSerializer(data_counts, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
 def region_visualization(request):
     # data_counts = Data.objects.values('region').annotate(count=Count('id'))
-    data_counts = Data.objects.annotate(region_lower=Lower('region')).values('region_lower').annotate(count=Count('id')).annotate(region=Concat(Value(''), Value(''), Lower('region_lower'))).values('region', 'count')
+    data_counts = Data.objects.exclude(region='').annotate(region_lower=Lower('region')).values('region_lower').annotate(count=Count('id')).annotate(region=Concat(Value(''), Value(''), Lower('region_lower'))).values('region', 'count')
     serializer = RegionSerializer(data_counts, many=True)
     return Response(serializer.data)
 
 
 @api_view(['GET'])
 def pestle_visualization(request):
-    data_counts = Data.objects.values('pestle').annotate(count=Count('id'))
+    data_counts = Data.objects.exclude(topic='').values('pestle').annotate(count=Count('id'))
     serializer = PestleSerializer(data_counts, many=True)
     return Response(serializer.data)
