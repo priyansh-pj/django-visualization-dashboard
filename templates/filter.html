@@ -82,7 +82,6 @@
             selectElement.appendChild(optionElement);
             });
         })
-        .catch(error => console.error(error));
         //relevance
         fetch('http://127.0.0.1:8000/api/data')
         .then(response => response.json())
@@ -95,7 +94,6 @@
             selectElement.appendChild(optionElement);
             });
         })
-        .catch(error => console.error(error));
         //likelihood
         fetch('http://127.0.0.1:8000/api/data')
         .then(response => response.json())
@@ -108,7 +106,6 @@
             selectElement.appendChild(optionElement);
             });
         })
-        .catch(error => console.error(error));
         //start year
         fetch('http://127.0.0.1:8000/api/data')
         .then(response => response.json())
@@ -120,8 +117,7 @@
             optionElement.textContent = item.start_year + ' (' + item.count + ')';
             selectElement.appendChild(optionElement);
             });
-        })
-        .catch(error => console.error(error));        
+        })        
         //end year
         fetch('http://127.0.0.1:8000/api/data')
         .then(response => response.json())
@@ -134,7 +130,6 @@
             selectElement.appendChild(optionElement);
             });
         })
-        .catch(error => console.error(error));
         //country
         fetch('http://127.0.0.1:8000/api/data')
         .then(response => response.json())
@@ -147,7 +142,6 @@
             selectElement.appendChild(optionElement);
             });
         })
-        .catch(error => console.error(error));
         //region
         fetch('http://127.0.0.1:8000/api/data')
         .then(response => response.json())
@@ -160,7 +154,6 @@
             selectElement.appendChild(optionElement);
             });
         })
-        .catch(error => console.error(error));
         //pestel
         fetch('http://127.0.0.1:8000/api/data')
         .then(response => response.json())
@@ -173,7 +166,6 @@
             selectElement.appendChild(optionElement);
             });
         })
-        .catch(error => console.error(error));
         //topic
         fetch('http://127.0.0.1:8000/api/data')
         .then(response => response.json())
@@ -186,7 +178,6 @@
             selectElement.appendChild(optionElement);
             });
         })
-        .catch(error => console.error(error));
         //source
         fetch('http://127.0.0.1:8000/api/data')
         .then(response => response.json())
@@ -198,8 +189,7 @@
             optionElement.textContent = item.source + ' (' + item.count + ')';
             selectElement.appendChild(optionElement);
             });
-        })
-        .catch(error => console.error(error));        
+        })        
     </script>
 </body>
 </html>
