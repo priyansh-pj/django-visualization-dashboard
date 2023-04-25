@@ -157,3 +157,16 @@ class SourceSerializer(serializers.Serializer):
         if source is '':
             source =  'Invalid Source'
         return source
+
+class SectorSerializer(serializers.Serializer):
+    sector = serializers.SerializerMethodField()
+    count = serializers.IntegerField()
+
+    class Meta:
+        fields = ('sector', 'count')
+
+    def get_sector(self, obj):
+        sector = obj['sector'].title()
+        if sector is '':
+            sector =  'Invalid sector'
+        return sector

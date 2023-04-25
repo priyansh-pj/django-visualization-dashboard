@@ -30,6 +30,7 @@ def filter(request):
     pestle = request.query_params.get('pestle-select')
     topic = request.query_params.get('topic-select')
     source = request.query_params.get('source-select')
+    sector = request.query_params.get('sector-select')
 
     query = Q()
 
@@ -62,6 +63,9 @@ def filter(request):
 
     if source:
         query &= Q(source=source)
+    
+    if sector:
+        query &= Q(sector=sector)
 
     data_counts = {}
 
@@ -104,6 +108,11 @@ def filter(request):
     source_data = Data.objects.filter(query).values('source').annotate(count=Count('id'))
     serializer = SourceSerializer(source_data, many=True)
     data_counts['source'] = serializer.data
+
+    sector_data = Data.objects.filter(query).values('sector').annotate(count=Count('id'))
+    serializer = SectorSerializer(sector_data, many=True)
+    data_counts['sector'] = serializer.data
+
 
     return Response(data_counts)
 
@@ -151,4 +160,8 @@ def visualization_data(request):
     serializer = SourceSerializer(source_data, many=True)
     data_counts['source'] = serializer.data
     
+    sector_data = Data.objects.exclude(sector='').values('sector').annotate(count=Count('id'))
+    serializer = SectorSerializer(sector_data, many=True)
+    data_counts['sector'] = serializer.data
+
     return Response(data_counts)
