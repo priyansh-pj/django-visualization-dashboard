@@ -76,8 +76,8 @@ class CountrySerializer(serializers.Serializer):
 
     def get_country(self, obj):
         country = obj['country']
-        if country is None:
-            country = 0
+        if country is '':
+            country = 'Invalid Country'
         return country
 
 class StartYearSerializer(serializers.Serializer):
@@ -89,7 +89,7 @@ class StartYearSerializer(serializers.Serializer):
     def get_start_year(self, obj):
         year = obj['start_year']
         if year is None:
-            year = 0
+            year =  'Invalid Year'
         return year
     
 class EndYearSerializer(serializers.Serializer):
@@ -102,7 +102,7 @@ class EndYearSerializer(serializers.Serializer):
     def get_end_year(self, obj):
         year = obj['end_year']
         if year is None:
-            year = 0
+            year =  'Invalid Year'
         return year
 
 
@@ -115,8 +115,8 @@ class TopicSerializer(serializers.Serializer):
 
     def get_topic(self, obj):
         topic = obj['topic'].title()
-        if topic is None:
-            topic = 0
+        if topic is '':
+            topic =  'Invalid Topic'
         return topic
 
 class RegionSerializer(serializers.Serializer):
@@ -128,8 +128,8 @@ class RegionSerializer(serializers.Serializer):
 
     def get_region(self, obj):
         region = obj['region'].title()
-        if region is None:
-            region = 0
+        if region is '':
+            region =  'Invalid Region'
         return region
 
 class PestleSerializer(serializers.Serializer):
@@ -141,6 +141,19 @@ class PestleSerializer(serializers.Serializer):
 
     def get_pestle(self, obj):
         pestle = obj['pestle'].title()
-        if pestle is None:
-            pestle = 0
+        if pestle is '':
+            pestle =  'Invalid Pestle'
         return pestle
+
+class SourceSerializer(serializers.Serializer):
+    source = serializers.SerializerMethodField()
+    count = serializers.IntegerField()
+
+    class Meta:
+        fields = ('source', 'count')
+
+    def get_source(self, obj):
+        source = obj['source'].title()
+        if source is '':
+            source =  'Invalid Source'
+        return source

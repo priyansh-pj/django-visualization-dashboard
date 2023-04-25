@@ -26,8 +26,8 @@
     <div class='container'>
         <div class="card my-2 mb-1">
             <div class="card-body p-3">
-                <h1 style="padding-left: 60px; display: inline-block;">Django Dashboard</h1>
-                <a class="btn btn-outline-primary float-end" href="{% url 'filter' %}">Filter <i class="fa fa-filter"></i></a>
+                <h1 style="padding-left: 60px; display: inline-block;">Django Dashboard : Filtered </h1>
+                <a class="btn btn-outline-primary float-end" href="{% url 'dashboard' %}">Go To dashboard <i class="fa fa-filter"></i></a>
             </div>
         </div>
         <div class= "row">
@@ -104,6 +104,14 @@
               </div>
         </div>
 
+        <div class='card my-2'>
+            <div class="card-body">
+                <h5 class="card-title">Source Visualization</h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary"></h6>
+                <canvas id="source-chart"></canvas>
+              </div>
+        </div>
+
     </div>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
@@ -115,8 +123,9 @@
 
     <script>
  		// Intensity Visualization
+        console.log('{{api|safe}}')
         // bar-chart
-         fetch('http://127.0.0.1:8000/api/data/')
+         fetch("{{api|safe}}")
          .then(response => response.json())
          .then(data => {
              const intensity = data.intensity.map(obj => obj.intensity);
@@ -154,7 +163,7 @@
          });
 
          // Likelihood pie chart
-        fetch('http://127.0.0.1:8000/api/data/')
+        fetch("{{api|safe}}")
         .then(response => response.json())
         .then(data => {
             const labels = data.likelihood.map(obj => obj.likelihood + " - " + obj.count);
@@ -183,7 +192,7 @@
         });
 
          // Relavance piechart
-         fetch('http://127.0.0.1:8000/api/data/')
+         fetch("{{api|safe}}")
          .then(response => response.json())
          .then(data => {
              const labels = data.relevance.map(obj => obj.relevance + " - " + obj.count);
@@ -214,7 +223,7 @@
          });
          
         // start year line chart
-        fetch('http://127.0.0.1:8000/api/data/')
+        fetch("{{api|safe}}")
         .then(response => response.json())
         .then(data => {
             const labels = data.start_year.map(obj => obj.start_year);
@@ -236,7 +245,7 @@
         });
 
         // end year line chart
-        fetch('http://127.0.0.1:8000/api/data/')
+        fetch("{{api|safe}}")
         .then(response => response.json())
         .then(data => {
             const labels = data.end_year.map(obj => obj.end_year);
@@ -258,7 +267,7 @@
         });
         
         //topic bubble chart
-        fetch('http://127.0.0.1:8000/api/data/')
+        fetch("{{api|safe}}")
         .then(response => response.json())
         .then(data => {
             const topic = data.topic.map(obj => obj.topic);
@@ -296,7 +305,7 @@
         });
 
         // pestle-bubble
-        fetch('http://127.0.0.1:8000/api/data/')
+        fetch("{{api|safe }}")
          .then(response => response.json())
          .then(data => {
              const labels = data.pestle.map(obj => obj.pestle + " - " + obj.count);
@@ -320,7 +329,7 @@
          });
 
         //country choropleth
-        fetch('http://127.0.0.1:8000/api/data/')
+        fetch("{{ api|safe }}")
          .then(response => response.json())
          .then(data => {
              const country = data.country.map(obj => obj.country);
@@ -358,7 +367,7 @@
          });
 
         //region chart
-        fetch('http://127.0.0.1:8000/api/data/')
+        fetch("{{api|safe}}")
          .then(response => response.json())
          .then(data => {
              const region = data.region.map(obj => obj.region);
@@ -395,6 +404,43 @@
              });
          });
 
+         //source  chart
+        fetch("{{api|safe}}")
+        .then(response => response.json())
+        .then(data => {
+            const source = data.source.map(obj => obj.source);
+            const count = data.source.map(obj => obj.count);
+            new Chart('source-chart', {
+                type: 'bar',
+                data: {
+                    labels: source,
+                    datasets: [{
+                        label: 'Count',
+                        data: count,
+                        backgroundColor: '#007bff'
+                    }]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Source'
+                            }
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Count'
+                            },
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>

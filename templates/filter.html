@@ -29,12 +29,12 @@
         <div class="card my-2 mb-1">
             <div class="card-body p-3">
                 <h1 style="padding-left: 60px; display: inline-block;">Django Dashboard - Filter</h1>
-                <a class="btn btn-outline-primary float-end" href="{% url 'filter' %}">Filter <i class="fa fa-filter"></i></a>
+                <a class="btn btn-outline-primary float-end" href="{% url 'dashboard' %}">Back to Dashboard </i></a>
             </div>
         </div>
         <div class='card my-2'>
             <div class="card-body" >
-                <form action="http://127.0.0.1:8000/api/filter/" method="get" >
+                <form action="{% url 'filtered' %}" method="get" >
                     <div class="form-group row ">
                     <label class="col-sm-4 col-form-label my-1">Intensity Visualization : </label>
                     <div class="col-sm-6 my-1"><select id="intensity-select" name="intensity-select" class="form-select"><option></option></select></div>
@@ -54,6 +54,8 @@
                     <div class="col-sm-6 my-1"><select id="pestle-select" name="pestle-select" class="form-select"><option></option></select></div>
                     <label class="col-sm-4 col-form-label my-1">Topic Visualization : </label>
                     <div class="col-sm-6 my-1"><select id="topic-select" name="topic-select" class="form-select"><option></option></select></div>
+                    <label class="col-sm-4 col-form-label my-1">Source Visualization : </label>
+                    <div class="col-sm-6 my-1"><select id="source-select" name="source-select" class="form-select"><option></option></select></div>
                     <div class="col-sm-4 my-1"></div>
                     <button type="submit" class="btn btn-primary col-sm-4 my-1 ml-4">Submit</button>
                     </div>
@@ -73,20 +75,20 @@
         .then(response => response.json())
         .then(data => {
             const selectElement = document.getElementById('intensity-select');
-            data.forEach(item => {
+            data.intensity.forEach(item => {
             const optionElement = document.createElement('option');
-            optionElement.value = item.intensity.intensity_id;
-            optionElement.textContent = item.intensity.intensity + ' (' + item.intensity.count + ')';
+            optionElement.value = item.intensity_id;
+            optionElement.textContent = item.intensity + ' (' + item.count + ')';
             selectElement.appendChild(optionElement);
             });
         })
         .catch(error => console.error(error));
         //relevance
-        fetch('http://127.0.0.1:8000/api/relevance')
+        fetch('http://127.0.0.1:8000/api/data')
         .then(response => response.json())
         .then(data => {
             const selectElement = document.getElementById('relevance-select');
-            data.forEach(item => {
+            data.relevance.forEach(item => {
             const optionElement = document.createElement('option');
             optionElement.value = item.relevance_id;
             optionElement.textContent = item.relevance + ' (' + item.count + ')';
@@ -95,11 +97,11 @@
         })
         .catch(error => console.error(error));
         //likelihood
-        fetch('http://127.0.0.1:8000/api/likelihood')
+        fetch('http://127.0.0.1:8000/api/data')
         .then(response => response.json())
         .then(data => {
             const selectElement = document.getElementById('likelihood-select');
-            data.forEach(item => {
+            data.likelihood.forEach(item => {
             const optionElement = document.createElement('option');
             optionElement.value = item.likelihood_id;
             optionElement.textContent = item.likelihood + ' (' + item.count + ')';
@@ -108,11 +110,11 @@
         })
         .catch(error => console.error(error));
         //start year
-        fetch('http://127.0.0.1:8000/api/start_year/')
+        fetch('http://127.0.0.1:8000/api/data')
         .then(response => response.json())
         .then(data => {
             const selectElement = document.getElementById('start-year-select');
-            data.forEach(item => {
+            data.start_year.forEach(item => {
             const optionElement = document.createElement('option');
             optionElement.value = item.start_year;
             optionElement.textContent = item.start_year + ' (' + item.count + ')';
@@ -121,11 +123,11 @@
         })
         .catch(error => console.error(error));        
         //end year
-        fetch('http://127.0.0.1:8000/api/end_year')
+        fetch('http://127.0.0.1:8000/api/data')
         .then(response => response.json())
         .then(data => {
             const selectElement = document.getElementById('end-year-select');
-            data.forEach(item => {
+            data.end_year.forEach(item => {
             const optionElement = document.createElement('option');
             optionElement.value = item.end_year;
             optionElement.textContent = item.end_year + ' (' + item.count + ')';
@@ -134,11 +136,11 @@
         })
         .catch(error => console.error(error));
         //country
-        fetch('http://127.0.0.1:8000/api/country')
+        fetch('http://127.0.0.1:8000/api/data')
         .then(response => response.json())
         .then(data => {
             const selectElement = document.getElementById('country-select');
-            data.forEach(item => {
+            data.country.forEach(item => {
             const optionElement = document.createElement('option');
             optionElement.value = item.country;
             optionElement.textContent = item.country + ' (' + item.count + ')';
@@ -147,11 +149,11 @@
         })
         .catch(error => console.error(error));
         //region
-        fetch('http://127.0.0.1:8000/api/region')
+        fetch('http://127.0.0.1:8000/api/data')
         .then(response => response.json())
         .then(data => {
             const selectElement = document.getElementById('region-select');
-            data.forEach(item => {
+            data.region.forEach(item => {
             const optionElement = document.createElement('option');
             optionElement.value = item.region;
             optionElement.textContent = item.region + ' (' + item.count + ')';
@@ -160,11 +162,11 @@
         })
         .catch(error => console.error(error));
         //pestel
-        fetch('http://127.0.0.1:8000/api/pestle')
+        fetch('http://127.0.0.1:8000/api/data')
         .then(response => response.json())
         .then(data => {
             const selectElement = document.getElementById('pestle-select');
-            data.forEach(item => {
+            data.pestle.forEach(item => {
             const optionElement = document.createElement('option');
             optionElement.value = item.pestle;
             optionElement.textContent = item.pestle + ' (' + item.count + ')';
@@ -173,11 +175,11 @@
         })
         .catch(error => console.error(error));
         //topic
-        fetch('http://127.0.0.1:8000/api/topic')
+        fetch('http://127.0.0.1:8000/api/data')
         .then(response => response.json())
         .then(data => {
             const selectElement = document.getElementById('topic-select');
-            data.forEach(item => {
+            data.topic.forEach(item => {
             const optionElement = document.createElement('option');
             optionElement.value = item.topic;
             optionElement.textContent = item.topic + ' (' + item.count + ')';
@@ -185,6 +187,19 @@
             });
         })
         .catch(error => console.error(error));
+        //source
+        fetch('http://127.0.0.1:8000/api/data')
+        .then(response => response.json())
+        .then(data => {
+            const selectElement = document.getElementById('source-select');
+            data.source.forEach(item => {
+            const optionElement = document.createElement('option');
+            optionElement.value = item.source;
+            optionElement.textContent = item.source + ' (' + item.count + ')';
+            selectElement.appendChild(optionElement);
+            });
+        })
+        .catch(error => console.error(error));        
     </script>
 </body>
 </html>
