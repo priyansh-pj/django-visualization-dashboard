@@ -1,17 +1,14 @@
 from rest_framework import serializers
 from .models import Data
 
-class DataSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Data
-        fields = "__all__"
 
 class IntensitySerializer(serializers.Serializer):
+    intensity_id = serializers.SerializerMethodField()
     intensity = serializers.SerializerMethodField()
     count = serializers.IntegerField()
 
     class Meta:
-        fields = ('intensity', 'count')
+        fields = ('intensity_id', 'intensity', 'count')
 
     def get_intensity(self, obj):
         intensity = obj['intensity']
@@ -19,13 +16,27 @@ class IntensitySerializer(serializers.Serializer):
             intensity = 0
         intensity = f'intensity ({str(intensity)})' 
         return intensity
+    def get_intensity_id(self, obj):
+        intensity = obj['intensity']
+        if intensity is None:
+            intensity = 0
+        intensity = f'{str(intensity)}' 
+        return intensity
     
 class LikelihoodSerializer(serializers.Serializer):
+    likelihood_id = serializers.SerializerMethodField()
     likelihood = serializers.SerializerMethodField()
     count = serializers.IntegerField()
 
     class Meta:
-        fields = ('likelihood', 'count')
+        fields = ('likelihood_id', 'likelihood', 'count')
+
+    def get_likelihood_id(self, obj):
+        likelihood = obj['likelihood']
+        if likelihood is None:
+            likelihood = 0
+        likelihood = f'{str(likelihood)}' 
+        return likelihood
 
     def get_likelihood(self, obj):
         likelihood = obj['likelihood']
@@ -35,11 +46,12 @@ class LikelihoodSerializer(serializers.Serializer):
         return likelihood
 
 class RelevanceSerializer(serializers.Serializer):
+    relevance_id = serializers.SerializerMethodField()
     relevance = serializers.SerializerMethodField()
     count = serializers.IntegerField()
 
     class Meta:
-        fields = ('relevance', 'count')
+        fields = ('relevance_id', 'relevance', 'count')
 
     def get_relevance(self, obj):
         relevance = obj['relevance']
@@ -48,11 +60,17 @@ class RelevanceSerializer(serializers.Serializer):
         relevance = f'relevance ({str(relevance)})' 
         
         return relevance
+    
+    def get_relevance_id(self, obj):
+        relevance = obj['relevance']
+        if relevance is None:
+            relevance = 0
+        relevance = f'{str(relevance)}' 
+        return relevance
 
 class CountrySerializer(serializers.Serializer):
     country = serializers.SerializerMethodField()
     count = serializers.IntegerField()
-
     class Meta:
         fields = ('country', 'count')
 
@@ -65,8 +83,6 @@ class CountrySerializer(serializers.Serializer):
 class StartYearSerializer(serializers.Serializer):
     start_year = serializers.SerializerMethodField()
     count = serializers.IntegerField()
-
-
     class Meta:
         fields = ('start_year', 'count')
 

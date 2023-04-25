@@ -21,8 +21,12 @@ from django.shortcuts import render
 def dashboard(request):
     return render(request,'dashboard.html')
 
+def filter(request):
+    return render(request,'filter.html')
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/',include('dashboard.urls')),
     path('',dashboard, name='dashboard'),
+    path('filter/',filter, name='filter'),
 ]
