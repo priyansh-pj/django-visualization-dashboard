@@ -30,6 +30,28 @@
                 <a class="btn btn-outline-primary float-end" href="{% url 'dashboard' %}">Go To dashboard <i class="fa fa-filter"></i></a>
             </div>
         </div>
+        <div class='card my-2'>
+            <div class="card-body">
+                <h3 class="card-title">Insights</h3>
+                <br>
+                <div class='row'>
+                <h5 class="card-subtitle mb-2 col-sm-6 text-body-secondary">Start Year : <span id="start-year"></span></h5>
+                <h5 class="card-subtitle mb-2 col-sm-6 text-body-secondary">End Year : <span id="end-year"></span></h5>
+                </div>
+                <div class='row'>
+                <h5 class="card-subtitle mb-2 col-sm-6 text-body-secondary">Country : <span id="country"></span></h5>
+                <h5 class="card-subtitle mb-2 col-sm-6 text-body-secondary">Region : <span id="region"></span></h5>
+                </div>
+                <div class='row'>
+                <h5 class="card-subtitle mb-2 col-sm-6 text-body-secondary">Pestle : <span id="pestle"></span></h5>
+                <h5 class="card-subtitle mb-2 col-sm-6 text-body-secondary">Sector : <span id="sector"></span></h5>
+                </div>
+                <div class='row'>
+                <h5 class="card-subtitle mb-2 col-sm-6 text-body-secondary">Topic : <span id="topic"></span></h5>
+                <h5 class="card-subtitle mb-2 col-sm-6 text-body-secondary">Source : <span id="source"></span></h5>
+                </div>
+              </div>
+        </div>
         <div class= "row">
             <div class='card my-2 col-6'>
                 <div class="card-body">
@@ -125,7 +147,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
     <script>
@@ -530,6 +552,21 @@
                     }
                 }
             });
+        });
+        
+        $.ajax({
+            url: "{{api|safe}}",
+            method: "GET",
+            success: function(data) {
+                $('#start-year').text(data.start_year.length);
+                $('#end-year').text(data.end_year.length);
+                $('#country').text(data.country.length);
+                $('#region').text(data.region.length);
+                $('#pestle').text(data.pestle.length);
+                $('#sector').text(data.sector.length);
+                $('#topic').text(data.topic.length);
+                $('#source').text(data.source.length);
+            },
         });
     </script>
 </body>
